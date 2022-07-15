@@ -34,8 +34,11 @@ import scala.collection.JavaConversions._
 
 @Component
 class DSSGatewayParser extends AbstractGatewayParser {
+  val appConns:java.util.HashSet[String] =new java.util.HashSet[String]()
+  DSSGatewayConfiguration.DSS_URL_APPCONNS.getValue.split(",").foreach(app=>{
+      appConns.add(app)
+  })
 
-  val appConns = DSSGatewayConfiguration.DSS_URL_APPCONNS.getValue.split(",")
 
   override def shouldContainRequestBody(gatewayContext: GatewayContext): Boolean = {
     var contentType = gatewayContext.getRequest.getHeaders.get("Content-Type")
