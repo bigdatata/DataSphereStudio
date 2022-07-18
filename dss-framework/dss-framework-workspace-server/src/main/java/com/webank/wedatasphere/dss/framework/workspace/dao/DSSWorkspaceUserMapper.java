@@ -55,9 +55,12 @@ public interface DSSWorkspaceUserMapper {
     @Select("select is_admin from dss_user where username = #{userName}")
     Integer isAdmin(@Param("userName") String userName);
 
+//    operation failed(操作失败)s！the reason(原因)：SQLException:
+//    Expression #1 of ORDER BY clause is not in SELECT list, references column 'dss.dss_workspace_user_role.id' which is not in SELECT list; this is incompatible with DISTINCT
+
     @Select({
             "<script>",
-            "select distinct created_by as creator, username as username, create_time as joinTime,workspace_id as workspaceId " +
+            "select created_by as creator, username as username, create_time as joinTime,workspace_id as workspaceId " +
                     "from dss_workspace_user_role where workspace_id = #{workspaceId} ",
             "<if test='username != null'>and username=#{username}</if> order by id desc",
             "</script>"

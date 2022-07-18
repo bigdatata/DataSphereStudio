@@ -28,7 +28,9 @@ public class DolphinSchedulerTokenGetOperation extends AbstractOptionalOperation
     public ResponseRef apply(StructureRequestRef ref) {
         String token = DolphinSchedulerTokenManager.getDolphinSchedulerTokenManager(getBaseUrl()).getToken(ref.getUserName());
         long expireTime = DolphinSchedulerTokenManager.getDolphinSchedulerTokenManager(getBaseUrl()).getTokenExpireTime(ref.getUserName());
-        return ResponseRef.newExternalBuilder().setResponseMap(MapUtils.newCommonMap("token", token, "expireTime", expireTime)).success();
+        //fix DolphinScheduler return  long expireTime, case error
+        //operation failed(操作失败)s！the reason(原因)：ClassCastException: java.lang.Long cannot be cast to java.lang.String
+        return ResponseRef.newExternalBuilder().setResponseMap(MapUtils.newCommonMap("token", token, "expireTime", String.valueOf(expireTime))).success();
     }
 
 }
