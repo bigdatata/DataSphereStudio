@@ -51,8 +51,11 @@ public class WorkflowToDolphinSchedulerSynchronizer implements WorkflowToRelSync
         List<WorkflowNode> nodes = flow.getWorkflowNodes();
         for (WorkflowNode node : nodes) {
             DSSNode dssNode = node.getDSSNode();
-            if (CollectionUtils.isEmpty(dssNode.getResources())) {
-                throw new ExternalOperationFailedException(90021, dssNode.getName() + "节点内容不能为空");
+            // sqoop node ignore resource check
+            if(! "linkis.appconn.exchangis.sqoop".equals(dssNode.getNodeType())){
+                if (CollectionUtils.isEmpty(dssNode.getResources())) {
+                    throw new ExternalOperationFailedException(90021, dssNode.getName() + "节点内容不能为空");
+                }
             }
         }
     }
