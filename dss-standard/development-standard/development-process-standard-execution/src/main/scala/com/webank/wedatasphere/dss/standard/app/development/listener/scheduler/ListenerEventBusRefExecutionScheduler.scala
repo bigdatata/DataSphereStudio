@@ -45,7 +45,13 @@ class ListenerEventBusRefExecutionScheduler(eventQueueCapacity: Int, name: Strin
 
   def this() = {
     this(ASYNC_REF_EXECUTION_SCHEDULER_QUEUE_SIZE.getValue, "Async-NodeExecution-Scheduler")(ASYNC_REF_EXECUTION_SCHEDULER_THREAD_SIZE.getValue)
-    getAsyncRefExecutionSchedulerListeners.foreach(listenerEventBus.addListener)
+//    getAsyncRefExecutionSchedulerListeners.foreach(listenerEventBus.addListener)
+    val listenerArray: Array[AsyncRefExecutionSchedulerListener] =getAsyncRefExecutionSchedulerListeners
+    var i=0;
+    while (i<listenerArray.length){
+      listenerEventBus.addListener(listenerArray(i))
+      i=i+1
+    }
   }
 
   private val eventQueue = {

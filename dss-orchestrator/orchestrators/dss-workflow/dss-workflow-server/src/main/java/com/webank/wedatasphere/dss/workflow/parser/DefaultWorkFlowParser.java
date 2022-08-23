@@ -17,6 +17,7 @@
 package com.webank.wedatasphere.dss.workflow.parser;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.collect.Lists;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -41,12 +42,18 @@ import java.util.stream.Collectors;
 public class DefaultWorkFlowParser implements WorkFlowParser {
     @Override
     public List<Resource> getWorkFlowResources(String workFlowJson) {
-        JsonParser parser = new JsonParser();
-        JsonObject jsonObject = parser.parse(workFlowJson).getAsJsonObject();
-        JsonArray resourcesJsonArray = jsonObject.getAsJsonArray("resources");
-        List<Resource> resources = DSSCommonUtils.COMMON_GSON.fromJson(resourcesJsonArray, new com.google.gson.reflect.TypeToken<List<Resource>>() {
-        }.getType());
-        return resources;
+//        JsonParser parser = new JsonParser();
+//        JsonObject jsonObject = parser.parse(workFlowJson).getAsJsonObject();
+//        JsonArray resourcesJsonArray = jsonObject.getAsJsonArray("resources");
+//        List<Resource> resources = DSSCommonUtils.COMMON_GSON.fromJson(resourcesJsonArray, new com.google.gson.reflect.TypeToken<List<Resource>>() {
+//        }.getType());
+        //fix after workflow run, case can not publish workflow
+        List<Resource> resourceList = Lists.newArrayList();
+        List<DSSNode> dwsNodes = getWorkFlowNodes(workFlowJson);
+        for (DSSNode node:dwsNodes){
+            resourceList.addAll(node.getResources());
+        }
+        return resourceList;
     }
 
     @Override
