@@ -63,7 +63,7 @@
                     <groupId>commons-logging</groupId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>json4s-jackson_2.11</artifactId>
+                    <artifactId>json4s-jackson_2.12</artifactId>
                     <groupId>org.json4s</groupId>
                 </exclusion>
             </exclusions>
